@@ -12,14 +12,6 @@ export const COLUMNS =[
         accessor: 'date_of_mass'
     },
     {
-        Header: 'Event Name',
-        accessor: 'event_name'
-    },
-    {
-        Header: 'Event Time',
-        accessor: 'event_time'
-    },
-    {
         Header: "Action"
     }
 ]

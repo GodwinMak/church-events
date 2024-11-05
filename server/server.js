@@ -19,8 +19,10 @@ app.get("/", (req, res) => {
 
 //routes
 const user = require("./router/user");
+const churchmass = require("./router/churchmass")
 
 app.use("/user", user);
+app.use("/mass", churchmass)
 
 const PORT = process.env.PORT || 8080;
 

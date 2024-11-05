@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import both icons
 
 const Signup = () => {
   const navigate = useNavigate();
 
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+
   const [values, setValues] = useState({
     fullname: "",
     password: "",
     email: "",
+    church_name: "",
   });
 
   const handleOnchange = ({ currentTarget: input }) => {
@@ -18,16 +22,17 @@ const Signup = () => {
   };
 
   const handleValidation = (value) => {
-    const { fullname, email, password } = value;
+    const { fullname, email, password, church_name } = value;
     let tempErrors = {};
 
     // Check if all fields are empty
-    if (!fullname && !email && !password) {
+    if (!fullname && !email && !password && !church_name) {
       tempErrors.all = "All fields are required";
     } else {
       if (!fullname) tempErrors.fullname = "Fullname is required";
       if (!email) tempErrors.email = "Email is required";
       if (!password) tempErrors.password = "Password is required";
+      if (!church_name) tempErrors.password = "Church name is required";
     }
 
     setErrors(tempErrors);
@@ -101,23 +106,41 @@ const Signup = () => {
                 <p className="text-red-500 text-xs italic">{errors.fullname}</p>
               )}
             </div>
-
             <div>
               <label className="block mb-2 text-indigo-500" htmlFor="password">
                 Password
               </label>
-              <input
-                className="w-full p-2 mb-3 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-300"
-                type="password"
-                name="password"
-                onChange={handleOnchange}
-              />
-              {/* Password-specific error */}
+              <div className="relative">
+                <input
+                  className="w-full p-2 mb-6 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-300"
+                  type={showPassword ? "text" : "password"} // Toggle type based on showPassword
+                  name="password"
+                  onChange={handleOnchange}
+                />
+                {/* Eye Icon */}
+                <span
+                  className="absolute right-2 translate-y-3/4 cursor-pointer text-indigo-500 text-lg  "
+                  onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
               {errors.password && (
                 <p className="text-red-500 text-xs italic">{errors.password}</p>
               )}
             </div>
-
+            <div>
+              <label className="block mb-2 text-indigo-500" htmlFor="full-name">
+                Church Name
+              </label>
+              <select className="w-full p-2 mb-3 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-300" name="church_name" onChange={handleOnchange}>
+                <option>Select Church</option>
+                <option value="KKKT KIMARA">KKKT KIMARA</option>
+                <option value="KKKT TEMBONI">KKKT TEMBONI</option>
+                <option value="KKKT MBEZI">KKKT MBEZI</option>
+                <option value="KKKT MJI MPYA">KKKT MJI MPYA</option>
+              </select>
+            </div>
             <div>
               <input
                 className="w-full bg-indigo-700 hover:bg-pink-700 text-white font-bold py-2 px-4 mb-6 rounded"

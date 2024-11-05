@@ -4,7 +4,8 @@ const User = db.users;
 
 
 exports.create = async (req, res) => {
-    const { fullname, email, password } = req.body;
+    try {
+        const { fullname, email, password , church_name} = req.body;
 
     const checkEmail = await User.findOne({ where: { email: email } });
     console.log(checkEmail)
@@ -22,15 +23,20 @@ exports.create = async (req, res) => {
         fullname,
         email,
         password: hashedPassword,
+        church_name
     })
 
     return res.status(201).send({
         message: "User was registered successfully!",
     });
+    } catch (error) {
+        res.status(500).json({message: "Server Error"})
+    }
 };
 
 
 exports.login = async (req, res) => {
+   try {
     const { email, password } = req.body;
 
     const user = await User.findOne({ where: { email: email } });
@@ -52,4 +58,7 @@ exports.login = async (req, res) => {
         fullname: user.fullname,
         email: user.email,
     });
+   } catch (error) {
+    res.status(500).json({message: "Server Error"})
+   }
 };

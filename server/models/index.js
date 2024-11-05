@@ -32,6 +32,7 @@ sequelize
 
 
   db.users = require("./users.js")(sequelize, DataTypes);
+  db.churchmass = require("./churchmass.js")(sequelize, DataTypes);
   db.sequelize
     .sync({ force: false })
     .then(() => {})
